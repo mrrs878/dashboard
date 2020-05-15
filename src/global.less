@@ -1,0 +1,44 @@
+@import './assets/less/theme.less';
+
+.app {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.content {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-top: 10px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.pointer:hover {
+    cursor: pointer;
+}
+
+.clickAble {
+    &:hover {
+        cursor: pointer;
+    }
+    &:active {
+        color: #000;
+    }
+}
+
+.simpleButton {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: @globalColor;
+    outline: none;
+    transition: color ease 0.5s;
+    .clickAble
+}
