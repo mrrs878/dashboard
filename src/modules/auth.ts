@@ -2,7 +2,7 @@ import apis from '../apis';
 import store, { actions } from '../store';
 import MAIN_CONFIG from '../config';
 
-const { LOGIN, LOGOUT } = apis;
+const { LOGIN, LOGOUT, GET_MENU } = apis;
 
 export default {
   async login(data: LoginReqI) {
@@ -38,6 +38,16 @@ export default {
         success: true,
         msg: '出错了',
       };
+    }
+  },
+  async getMenu() {
+    try {
+      const res = await GET_MENU();
+      console.log(res);
+      if (!res.success) return;
+      store.dispatch({ type: actions.UPDATE_MENU, data: res.data });
+    } catch (e) {
+      console.log(e);
     }
   },
 };

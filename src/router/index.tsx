@@ -29,16 +29,17 @@ interface PropsI {
 const Router: React.FC<PropsI> = (props: PropsI) => {
   function beforeEach(route: RouteConfigI): React.ReactNode {
     const Com = React.lazy(route.component);
-    return <Com />;
     if (localStorage.getItem(MAIN_CONFIG.TOKEN_NAME) || route.auth === false) {
-    } return <Login />;
+      return <Com />;
+    }
+    return <Login />;
   }
 
   const { children } = props;
 
   return (
     <BrowserRouter>
-      <Suspense fallback={<MLoading />}>
+      <Suspense fallback={null}>
         <Layout>
           { children[0] }
           <Content>

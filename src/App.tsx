@@ -7,10 +7,15 @@ import './global.less';
 import MHeader from './components/MHeader';
 import './mock';
 import userModule from './modules/user';
+import authModule from './modules/auth';
+import MAIN_CONFIG from './config';
 
 function App() {
   useEffect(() => {
-    setTimeout(userModule.getInfoByToken);
+    localStorage.setItem(MAIN_CONFIG.TOKEN_NAME, 'admin');
+    Promise.race([userModule.getInfoByToken(), authModule.getMenu()]).catch((error) => {
+      console.log(error);
+    });
   });
 
   return (

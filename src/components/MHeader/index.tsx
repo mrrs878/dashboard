@@ -6,7 +6,6 @@ import { PROFILE_ROUTES_MAP } from '../../router/profileRoutes';
 import style from './index.module.less';
 import { createIconFromIconfont } from '../../tools';
 import { AppState } from '../../store';
-import { CommonStateI } from '../../store/state';
 import { ROUTES_MAP } from '../../router';
 
 const { Search } = Input;

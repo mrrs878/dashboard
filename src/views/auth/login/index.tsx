@@ -1,9 +1,11 @@
 import React from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Form, Input, Button, Space } from 'antd';
+import { Form, Input, Button, Space, message } from 'antd';
 
 import style from './index.module.less';
 import { ROUTES_MAP } from '../../../router';
+import userModule from '../../../modules/user';
+import authModule from '../../../modules/auth';
 
 const layout = {
   labelCol: { span: 6, offset: 3 },
@@ -17,8 +19,13 @@ interface PropsI extends RouteComponentProps<any, any> {
 }
 
 const Index = (props: PropsI) => {
-  function onFinish(values: any) {
+  async function onFinish(values: any) {
     console.log('Success:', values.username);
+    const res = await userModule.login({ name: values.username, password: values.password });
+    await message.info(res.msg);
+    if (!res.success) return;
+    await authModule.getMenu();
+    props.history.replace(ROUTES_MAP.home);
   }
   function onFinishFailed(errorInfo: any) {
     console.log('Failed:', errorInfo);

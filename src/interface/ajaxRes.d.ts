@@ -9,5 +9,7 @@ interface LoginResI extends BaseResI<UserI>{
 }
 interface GetInfoByTokenResI extends BaseResI<UserI>{
 }
-interface LogoutResI {
+interface LogoutResI extends BaseResI<any>{
+}
+interface GetMenuResI extends BaseResI<Array<MenuItemI>>{
 }
