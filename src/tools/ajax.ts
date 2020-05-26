@@ -8,7 +8,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
   const tmp = clone(config);
-  tmp.headers.Authorization = `Bearer ${localStorage.getItem(MAIN_CONFIG.TOKEN_NAME)}`;
+  tmp.headers.Authorization = `${localStorage.getItem(MAIN_CONFIG.TOKEN_NAME)}`;
   return tmp;
 });
 instance.interceptors.response.use((response) => {
