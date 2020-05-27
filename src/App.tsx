@@ -11,6 +11,7 @@ import MAIN_CONFIG from './config';
 
 function App() {
   useEffect(() => {
+    localStorage.setItem(MAIN_CONFIG.TOKEN_NAME, 'admin');
     Promise.race([userModule.getInfoByToken(), authModule.getMenu()]).catch((error) => {
       console.log(error);
     });

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Button, Layout, Menu, message, Modal, Row } from 'antd';
+import { Button, Layout, Menu, message, Modal } from 'antd';
 import { connect } from 'react-redux';
 import * as Icon from '@ant-design/icons';
 import { ClickParam } from 'antd/es/menu';
@@ -55,9 +55,6 @@ const MMenu: React.FC<PropsI> = (props: PropsI) => {
     if (path) MENU_CLICK_HANDLER.navigate(path);
     else MENU_CLICK_HANDLER[param.key]();
   }
-  function onHomeClick() {
-    props.history.replace(ROUTES_MAP.home);
-  }
 
   function dynamicIcon(iconType: string) {
     // @ts-ignore
@@ -87,26 +84,14 @@ const MMenu: React.FC<PropsI> = (props: PropsI) => {
   }
 
   return props.location.pathname === ROUTES_MAP.login ? <></> : (
-    <Sider collapsed={collapsed} trigger={null}>
+    <Sider collapsed={collapsed} trigger={null} collapsible>
       <div className={style.menuContainer}>
-        <div className={style.menuHeader}>
-          <Row justify="space-around">
-            <Button ghost icon={dynamicIcon('HomeOutlined')} onClick={onHomeClick} />
-            {
-              !collapsed && (
-                <Button icon={dynamicIcon('MenuFoldOutlined')} ghost onClick={onToggleCollapsedClick} />
-              )
-            }
-          </Row>
-          <br />
-          <Row justify="center">
-            {
-              collapsed && (
-                <Button icon={dynamicIcon('MenuUnfoldOutlined')} ghost onClick={onToggleCollapsedClick} />
-              )
-            }
-          </Row>
-        </div>
+        <Button
+          className={style.toggleMenuBtn}
+          icon={dynamicIcon(collapsed ? 'MenuUnfoldOutlined' : 'MenuFoldOutlined')}
+          ghost
+          onClick={onToggleCollapsedClick}
+        />
         {
           generateMenu(props.state.menu)
         }

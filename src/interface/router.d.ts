@@ -1,6 +1,6 @@
 interface RouteConfigI {
   path: string;
-  component: () => Promise<any>;
+  component: any;
   exact?: boolean;
   auth?: boolean;
 }

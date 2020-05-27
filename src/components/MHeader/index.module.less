@@ -1,15 +1,36 @@
 .headerContainer {
-  height: 120px;
   background: url("../../assets/images/navbarCover.jpg") no-repeat center center;
   background-size: 100% 100%;
-  padding: 20px 10px 10px;
+  padding: 20px 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
 }
 
-.searchInput {
+.action {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  > span {
+    color: #f00;
+    vertical-align: middle;
+  }
+  &:hover {
+    background: #f00;
+  }
+  &:global(.opened) {
+    background: #0f0;
+  }
+}
+.search {
+  padding: 0 12px;
+  &:hover {
+    background: transparent;
+  }
 }
 
 .date {

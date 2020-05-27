@@ -1,4 +1,6 @@
-const PROFILE = () => import('../views/profile/Profile');
+import React from 'react';
+
+const PROFILE = React.lazy(() => import('../views/profile/Profile'));
 
 const PROFILE_ROUTES_MAP = {
   profile: '/profile',
