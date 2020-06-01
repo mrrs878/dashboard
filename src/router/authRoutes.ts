@@ -1,5 +1,7 @@
-const LOGIN = () => import('../views/auth/login');
-const REG = () => import('../views/auth/reg');
+import React from 'react';
+
+const LOGIN = React.lazy(() => import('../views/auth/login'));
+const REG = React.lazy(() => import('../views/auth/reg'));
 
 const AUTH_ROUTES_MAP = {
   login: '/auth/login',
@@ -20,4 +22,5 @@ const AUTH_ROUTES: Array<RouteConfigI> = [
 export {
   AUTH_ROUTES_MAP,
   AUTH_ROUTES,
+  LOGIN,
 };

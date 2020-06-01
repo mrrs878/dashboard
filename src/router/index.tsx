@@ -3,9 +3,8 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 
 import MAIN_CONFIG from '../config';
-import Login from '../views/auth/login';
 import MLoading from '../components/MLoading';
-import { AUTH_ROUTES, AUTH_ROUTES_MAP } from './authRoutes';
+import { AUTH_ROUTES, AUTH_ROUTES_MAP, LOGIN } from './authRoutes';
 import { HOME_ROUTES, HOME_ROUTES_MAP } from './homeRoutes';
 import { PROFILE_ROUTES, PROFILE_ROUTES_MAP } from './profileRoutes';
 
@@ -28,18 +27,18 @@ interface PropsI {
 
 const Router: React.FC<PropsI> = (props: PropsI) => {
   function beforeEach(route: RouteConfigI): React.ReactNode {
-    const Com = React.lazy(route.component);
+    const Com = route.component;
     if (localStorage.getItem(MAIN_CONFIG.TOKEN_NAME) || route.auth === false) {
       return <Com />;
     }
-    return <Login />;
+    return <LOGIN />;
   }
 
   const { children } = props;
 
   return (
     <BrowserRouter>
-      <Suspense fallback={null}>
+      <Suspense fallback={MLoading}>
         <Layout>
           { children[0] }
           <Content>

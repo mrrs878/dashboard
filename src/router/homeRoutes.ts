@@ -1,4 +1,6 @@
-const HOME = () => import('../views/home/Home');
+import React from 'react';
+
+const HOME = React.lazy(() => import('../views/home/Home'));
 
 const HOME_ROUTES_MAP = {
   home: '/',

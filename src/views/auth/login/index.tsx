@@ -3,7 +3,6 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Form, Input, Button, Space, message } from 'antd';
 
 import style from './index.module.less';
-import { ROUTES_MAP } from '../../../router';
 import userModule from '../../../modules/user';
 import authModule from '../../../modules/auth';
 
@@ -25,13 +24,13 @@ const Index = (props: PropsI) => {
     await message.info(res.msg);
     if (!res.success) return;
     await authModule.getMenu();
-    props.history.replace(ROUTES_MAP.home);
+    props.history.replace('/');
   }
   function onFinishFailed(errorInfo: any) {
     console.log('Failed:', errorInfo);
   }
   function onRegClick() {
-    props.history.push(ROUTES_MAP.reg);
+    props.history.push('/auth/reg');
   }
 
   return (
