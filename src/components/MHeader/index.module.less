@@ -1,11 +1,7 @@
+@import '~antd/es/style/themes/default.less';
+
 .headerContainer {
-  background: url("../../assets/images/navbarCover.jpg") no-repeat center center;
-  background-size: 100% 100%;
-  padding: 10px 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-sizing: border-box;
+  background-color: #fff;
 }
 
 .searchInput {
@@ -26,4 +22,12 @@
 }
 .userName:hover {
   cursor: pointer;
+}
+
+.avatar {
+  margin: ~'calc((@{layout-header-height} - 24px) / 2)' 0;
+  margin-right: 8px;
+  color: @primary-color;
+  vertical-align: top;
+  background: rgba(255, 255, 255, 0.85);
 }

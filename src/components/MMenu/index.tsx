@@ -90,7 +90,11 @@ const MMenu: React.FC<PropsI> = (props: PropsI) => {
     <Sider collapsed={collapsed} trigger={null}>
       <div className={style.menuContainer}>
         <div className={style.menuHeader}>
-          <Button icon={dynamicIcon(collapsed ? 'MenuUnfoldOutlined' : 'MenuFoldOutlined')} ghost onClick={onToggleCollapsedClick} />
+          <Button
+            icon={dynamicIcon(collapsed ? 'MenuUnfoldOutlined' : 'MenuFoldOutlined')}
+            ghost
+            onClick={onToggleCollapsedClick}
+          />
         </div>
         {
           generateMenu(props.state.menu)
