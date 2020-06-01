@@ -1,15 +1,14 @@
 @import '../../assets/less/theme.less';
 
 .menuContainer {
-  overflow-y: auto;
-  overflow-x: hidden;
   position: relative;
+  z-index: 1;
 }
 
 .menuHeader {
   padding-top: 20px;
-  position: sticky;
+  position: absolute;
   top: 0;
+  right: -60px;
   z-index: 1;
-  background-color: @dark;
 }

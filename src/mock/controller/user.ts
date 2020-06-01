@@ -1,13 +1,14 @@
-import { Context } from "koa";
+import { Context } from 'koa';
 
-const USER_DATA = require('../json/user.json')
+const USER_DATA = require('../json/user.json');
 
-exports.getUserInfo = async (ctx: Context) => {
-    const token = ctx.req.headers.authorization ?? 'guest'
-    ctx.body = {
-        success: true,
-        code: 200,
-        msg: '获取成功',
-        data: USER_DATA[token],
-    }
-}
+exports.getUserInfo = (ctx: Context) => {
+  const { authorization } = ctx.req.headers;
+  const data = USER_DATA[authorization || ''] || USER_DATA.guest;
+  ctx.body = {
+    success: true,
+    code: 200,
+    msg: '获取成功',
+    data,
+  };
+};

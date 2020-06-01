@@ -22,7 +22,7 @@ export default {
           msg: res.msg,
         };
       }
-      console.log(res)
+      console.log(res);
       store.dispatch({ type: actions.UPDATE_USER, data: res.data });
       return {
         success: true,

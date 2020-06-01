@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
+import React, { useEffect } from 'react';
 import MMenu from './components/MMenu';
 import Router from './router';
 import store from './store';
@@ -11,6 +11,7 @@ import MAIN_CONFIG from './config';
 
 function App() {
   useEffect(() => {
+    localStorage.setItem(MAIN_CONFIG.TOKEN_NAME, 'aaa');
     Promise.race([userModule.getInfoByToken(), authModule.getMenu()]).catch((error) => {
       console.log(error);
     });

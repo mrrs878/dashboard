@@ -13,8 +13,8 @@
   },
   "guest": {
     "name": "",
-    "accessToken": "",
-    "avatar": "",
+    "accessToken": "guest",
+    "avatar": "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
     "role": 2
   }
 }
