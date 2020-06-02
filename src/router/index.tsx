@@ -26,7 +26,7 @@ interface PropsI {
 }
 
 const Router: React.FC<PropsI> = (props: PropsI) => {
-  function beforeEach(route: RouteConfigI): React.ReactNode {
+  function beforeEach(route: RouteConfigI) {
     const Com = route.component;
     if (localStorage.getItem(MAIN_CONFIG.TOKEN_NAME) || route.auth === false) {
       return <Com />;
@@ -38,7 +38,7 @@ const Router: React.FC<PropsI> = (props: PropsI) => {
 
   return (
     <BrowserRouter>
-      <Suspense fallback={MLoading}>
+      <Suspense fallback={<MLoading />}>
         <Layout>
           { children[0] }
           <Content>

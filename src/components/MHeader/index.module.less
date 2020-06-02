@@ -1,27 +1,19 @@
 @import '~antd/es/style/themes/default.less';
+@import '../../assets/less/theme.less';
 
 .headerContainer {
   background-color: #fff;
 }
 
-.searchInput {
+.icon {
+  padding: 4px;
+  vertical-align: middle;
 }
 
-.date {
-  color: #fff;
-  font-weight: 700;
-  font-size: 18px;
-}
-
-.userName {
-  color: #fff;
-  font-weight: 700;
-  font-size: 18px;
-  display: flex;
-  justify-content: flex-end;
-}
-.userName:hover {
-  cursor: pointer;
+.badge {
+  font-size: 16px;
+  box-shadow: none;
+  margin: ~'calc((@{layout-header-height} - 24px) / 2)' 0;
 }
 
 .avatar {
@@ -30,4 +22,29 @@
   color: @primary-color;
   vertical-align: top;
   background: rgba(255, 255, 255, 0.85);
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  > span {
+    color: @text-color;
+    vertical-align: middle;
+  }
+  &:hover {
+    background: @pro-header-hover-bg;
+  }
+  &:global(.opened) {
+    background: @pro-header-hover-bg;
+  }
+}
+.search {
+  padding: 0 12px;
+  &:hover {
+    background: transparent;
+  }
 }

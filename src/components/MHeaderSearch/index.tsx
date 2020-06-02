@@ -49,7 +49,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props: HeaderSearchProps) => 
 
   return (
     <div
-      className={classNames(className, styles.headerSearch)}
+      className={styles.headerSearch}
       onClick={() => {
         setSearchMode(true);
         if (searchMode && inputRef.current) {
@@ -68,11 +68,12 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props: HeaderSearchProps) => 
         key="Icon"
         style={{
           cursor: 'pointer',
+          fontSize: 16,
         }}
       />
       <AutoComplete
-        key="AutoComplete"
         className={inputClass}
+        key="AutoComplete"
         value={value}
         style={{
           height: 28,
