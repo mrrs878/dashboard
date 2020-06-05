@@ -1,3 +1,4 @@
 /config-overrides.js
 /babel.config.js
 /jest.config.js
+/src/setupProxy.ts

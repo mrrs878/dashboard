@@ -12,10 +12,12 @@ const AUTH_ROUTES: Array<RouteConfigI> = [
   {
     path: AUTH_ROUTES_MAP.login,
     component: LOGIN,
+    title: '登录',
   },
   {
     path: AUTH_ROUTES_MAP.reg,
     component: REG,
+    title: '注册',
   },
 ];
 

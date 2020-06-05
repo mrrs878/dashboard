@@ -43,7 +43,6 @@ export default {
   async getMenu() {
     try {
       const res = await GET_MENU();
-      console.log(res);
       if (!res.success) return;
       store.dispatch({ type: actions.UPDATE_MENU, data: res.data });
     } catch (e) {

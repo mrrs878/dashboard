@@ -10,6 +10,7 @@ const PROFILE_ROUTES: Array<RouteConfigI> = [
   {
     path: PROFILE_ROUTES_MAP.profile,
     component: PROFILE,
+    title: '个人中心',
   },
 ];
 

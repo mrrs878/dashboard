@@ -7,6 +7,9 @@ import MLoading from '../components/MLoading';
 import { AUTH_ROUTES, AUTH_ROUTES_MAP, LOGIN } from './authRoutes';
 import { HOME_ROUTES, HOME_ROUTES_MAP } from './homeRoutes';
 import { PROFILE_ROUTES, PROFILE_ROUTES_MAP } from './profileRoutes';
+import MMenu from '../components/MMenu';
+import MHeader from '../components/MHeader';
+import MPageHeader from '../components/MPageHeader/inedx';
 
 const { Content } = Layout;
 
@@ -21,29 +24,25 @@ const ROUTES: Array<RouteConfigI> = [
   ...PROFILE_ROUTES,
 ];
 
-interface PropsI {
-  children?: any;
-}
-
-const Router: React.FC<PropsI> = (props: PropsI) => {
+const Router: React.FC = () => {
   function beforeEach(route: RouteConfigI) {
     const Com = route.component;
+    document.title = route.title;
     if (localStorage.getItem(MAIN_CONFIG.TOKEN_NAME) || route.auth === false) {
       return <Com />;
     }
     return <LOGIN />;
   }
 
-  const { children } = props;
-
   return (
     <BrowserRouter>
       <Suspense fallback={<MLoading />}>
         <Layout>
-          { children[0] }
+          <MMenu />
           <Content>
             <div className="content">
-              { children[1] }
+              <MHeader />
+              <MPageHeader />
               <Switch>
                 {
                   ROUTES.map((route) => (

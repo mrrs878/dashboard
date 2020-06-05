@@ -10,6 +10,7 @@ const HOME_ROUTES: Array<RouteConfigI> = [
   {
     path: HOME_ROUTES_MAP.home,
     component: HOME,
+    title: '首页',
   },
 ];
 
