@@ -19,6 +19,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/camelcase': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
     'import/no-unresolved': [2, { "ignore": ["^@"] }],
     'react/destructuring-assignment': 'off',
     "react-hooks/rules-of-hooks": "error",

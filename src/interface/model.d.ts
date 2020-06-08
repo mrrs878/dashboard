@@ -9,5 +9,6 @@ interface MenuItemI {
   label: string;
   icon?: any;
   title: string;
+  path?: string;
   items?: Array<MenuItemI>;
 }

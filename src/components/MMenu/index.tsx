@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Button, Layout, Menu, message, Modal, Row } from 'antd';
+import { Layout, Menu, message, Modal } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import * as Icon from '@ant-design/icons';
 import { ClickParam } from 'antd/es/menu';
+import { clone } from 'ramda';
 import style from './index.module.less';
 import authModule from '../../modules/auth';
 import { ROUTES_MAP } from '../../router';
@@ -13,11 +14,7 @@ import { AppState } from '../../store';
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
-const MENU_ITEM_PATH: DynamicObjectKey<string> = {
-  profile: ROUTES_MAP.profile,
-  login: ROUTES_MAP.login,
-  about: ROUTES_MAP.login,
-};
+const MENU_ITEM_PATH: DynamicObjectKey<string> = clone(ROUTES_MAP);
 
 const mapState2Props = (state: AppState) => ({
   state: state.common,
@@ -51,13 +48,9 @@ const MMenu: React.FC<PropsI> = (props: PropsI) => {
     setCollapsed(!collapsed);
   }
   function onMenuClick(param: ClickParam) {
-    console.log(param);
     const path = MENU_ITEM_PATH[param.key];
     if (path) MENU_CLICK_HANDLER.navigate(path);
     else MENU_CLICK_HANDLER[param.key]();
-  }
-  function onHomeClick() {
-    props.history.replace(ROUTES_MAP.home);
   }
 
   function dynamicIcon(iconType: string) {
@@ -70,8 +63,8 @@ const MMenu: React.FC<PropsI> = (props: PropsI) => {
       return (
         <SubMenu key={item.label} icon={dynamicIcon(item.icon)} title={item.title}>
           {
-          item.items?.map((child) => walkMenu(child))
-        }
+            item.items?.map((child) => walkMenu(child))
+          }
         </SubMenu>
       );
     }

@@ -4,6 +4,14 @@ import MAIN_CONFIG from '../config';
 
 const { LOGIN, LOGOUT, GET_MENU } = apis;
 
+const routes: Array<string> = [];
+
+function walkMenu(menuItem: MenuItemI) {
+  if (menuItem.path) routes.push(menuItem.path);
+  if (!menuItem.items) return;
+  menuItem.items.forEach((item) => walkMenu(item));
+}
+
 export default {
   async login(data: LoginReqI) {
     try {
@@ -44,7 +52,9 @@ export default {
     try {
       const res = await GET_MENU();
       if (!res.success) return;
+      res.data.forEach((item) => walkMenu(item));
       store.dispatch({ type: actions.UPDATE_MENU, data: res.data });
+      store.dispatch({ type: actions.UPDATE_ROUTES, data: routes });
     } catch (e) {
       console.log(e);
     }
