@@ -8,3 +8,7 @@ export const UPDATE_MENU = 'UPDATE_MENU';
 export type UPDATE_MENU = typeof UPDATE_MENU;
 export const UPDATE_ROUTES = 'UPDATE_ROUTES';
 export type UPDATE_ROUTES = typeof UPDATE_ROUTES;
+export const UPDATE_DICTS = 'UPDATE_DICTS';
+export type UPDATE_DICTS = typeof UPDATE_DICTS;
+export const UPDATE_DICT = 'UPDATE_DICT';
+export type UPDATE_DICT = typeof UPDATE_DICT;

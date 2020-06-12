@@ -11,7 +11,10 @@ type UpdateUser = ActionTypeT<actions.UPDATE_USER, UserI>;
 type ClearUser = ActionTypeT<actions.CLEAR_USER, any>;
 type UpdateMenu = ActionTypeT<actions.UPDATE_MENU, Array<MenuItemI>>;
 type UpdateRoutes = ActionTypeT<actions.UPDATE_ROUTES, Array<string>>;
+type UpdateDicts = ActionTypeT<actions.UPDATE_DICTS, Array<DictI>>;
+type UpdateDict = ActionTypeT<actions.UPDATE_DICT, DictI>;
 
-type ActionsT = IncreaseCountT | DecreaseCountT | UpdateUser | ClearUser | UpdateMenu | UpdateRoutes;
+type ActionsT = IncreaseCountT | DecreaseCountT | UpdateUser
+| ClearUser | UpdateMenu | UpdateRoutes | UpdateDicts | UpdateDict;
 
 export default ActionsT;

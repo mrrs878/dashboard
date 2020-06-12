@@ -16,6 +16,8 @@ function commonReducer(state = DEFAULT_COMMON_STATE, action: ActionsT): CommonSt
       return { ...state, menu: action.data };
     case actions.UPDATE_ROUTES:
       return { ...state, routes: action.data };
+    case actions.UPDATE_DICTS:
+      return { ...state, dicts: action.data };
     default:
       return state;
   }

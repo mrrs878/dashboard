@@ -13,3 +13,9 @@ interface LogoutResI extends BaseResI<any>{
 }
 interface GetMenuResI extends BaseResI<Array<MenuItemI>>{
 }
+
+interface GetDictsResT extends BaseResI<Array<DictI>>{
+}
+
+interface GetDictResT extends BaseResI<DictI>{
+}

@@ -8,7 +8,7 @@ export function createIconFromIconfont() {
   });
 }
 
-export function createMockRes<T, P>(url: string, type: MockMethodT, template: (req?: MockReqI<T>) => P) {
+export function createMockRes<T, P>(url: string | RegExp, type: MockMethodT, template: (req: MockReqI<T>) => P) {
   return Mock.mock(url, type, template);
 }
 

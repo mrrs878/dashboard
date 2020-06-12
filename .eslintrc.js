@@ -23,6 +23,7 @@ module.exports = {
     'import/no-unresolved': [2, { "ignore": ["^@"] }],
     'react/destructuring-assignment': 'off',
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "no-underscore-dangle": 'off'
   }
 };

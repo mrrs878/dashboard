@@ -1,0 +1,59 @@
+{
+  "dict": [
+    {
+      "id": 1,
+      "label": "status",
+      "label_view": "状态",
+      "type": "common",
+      "type_view": "公共",
+      "name": "删除",
+      "value": 0,
+      "status": 1,
+      "create_time": 1591843705000
+    },
+    {
+      "id": 2,
+      "label": "status",
+      "label_view": "状态",
+      "type": "common",
+      "type_view": "公共",
+      "name": "启用",
+      "status": 1,
+      "value": 1,
+      "create_time": 1591843705000
+    },
+    {
+      "id": 3,
+      "label": "status",
+      "label_view": "状态",
+      "type": "common",
+      "type_view": "公共",
+      "name": "停用",
+      "value": 2,
+      "status": 1,
+      "create_time": 1591843705000
+    },
+    {
+      "id": 4,
+      "label": "user_role",
+      "label_view": "角色",
+      "type": "user",
+      "type_view": "用户",
+      "name": "超级管理员",
+      "value": 0,
+      "status": 1,
+      "create_time": 1591843705000
+    },
+    {
+      "id": 5,
+      "label": "user_role",
+      "label_view": "角色",
+      "type": "user",
+      "type_view": "用户",
+      "name": "管理员",
+      "value": 1,
+      "status": 1,
+      "create_time": 1591843705000
+    }
+  ]
+}

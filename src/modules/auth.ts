@@ -1,4 +1,4 @@
-import apis from '../apis';
+import apis from '../api';
 import store, { actions } from '../store';
 import MAIN_CONFIG from '../config';
 

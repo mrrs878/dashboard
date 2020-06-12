@@ -1,4 +1,4 @@
-import apis from '../apis';
+import apis from '../api';
 import store, { actions } from '../store';
 
 const { GET_INFO_BY_TOKEN, LOGIN } = apis;

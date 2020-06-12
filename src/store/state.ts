@@ -5,4 +5,5 @@ export const DEFAULT_COMMON_STATE: CommonStateI = {
   user: new User(),
   menu: [],
   routes: [],
+  dicts: []
 };
