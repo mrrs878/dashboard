@@ -17,6 +17,6 @@ createMockRes<GetDictReqT, GetDictResT>(new RegExp(`${BASE_URL}/dict/\\d+`), 'ge
     success: true,
     code: 200,
     msg: '获取成功',
-    data: DICT_DATA.dict[id],
+    data: DICT_DATA.dict[id - 1],
   });
 });

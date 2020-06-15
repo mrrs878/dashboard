@@ -81,7 +81,7 @@ const Dict: React.FC<PropsI> = (props: PropsI) => {
   }, [props.common.dicts]);
 
   function onCreateGoodsClick() {
-    props.history.push(`/${SETTING_ROUTES_MAP.dict}/-1`);
+    props.history.push(`${SETTING_ROUTES_MAP.dict}/-1`);
   }
 
   async function onLoadMore() {

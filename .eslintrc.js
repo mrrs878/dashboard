@@ -24,6 +24,7 @@ module.exports = {
     'react/destructuring-assignment': 'off',
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "no-underscore-dangle": 'off'
+    "no-underscore-dangle": 'off',
+    'no-bitwise': 0
   }
 };
