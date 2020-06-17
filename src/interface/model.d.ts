@@ -10,7 +10,7 @@ interface MenuItemI {
   icon?: any;
   title: string;
   path?: string;
-  items?: Array<MenuItemI>;
+  children?: Array<MenuItemI>;
 }
 
 interface DictI {
@@ -23,4 +23,17 @@ interface DictI {
   type_view: string;
   name: string;
   value: number;
+}
+
+interface AjaxErrorI extends Error{
+  date: number;
+  data: any;
+  url: string;
+  referer: string;
+  method: string;
+  status: number;
+}
+
+interface CommonErrorI extends Error{
+  date: number;
 }

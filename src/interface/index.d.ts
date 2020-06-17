@@ -12,6 +12,3 @@ interface MockReqI<T> {
   type: MockMethodT,
   body: T
 }
-
-interface AjaxErrorI extends Error {}
-interface CommonErrorI extends Error {}

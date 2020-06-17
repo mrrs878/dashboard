@@ -2,16 +2,16 @@ import axios from 'axios';
 import { clone } from 'ramda';
 import MAIN_CONFIG from '../config';
 
-const instance = axios.create({
+const ajax = axios.create({
   timeout: 12000,
 });
 
-instance.interceptors.request.use((config) => {
+ajax.interceptors.request.use((config) => {
   const tmp = clone(config);
   tmp.headers.Authorization = `${localStorage.getItem(MAIN_CONFIG.TOKEN_NAME)}`;
   return tmp;
 });
-instance.interceptors.response.use((response) => {
+ajax.interceptors.response.use((response) => {
   if (response.status !== 200) return Promise.resolve(response.status);
   if (response.data.msg === 'token已过期') {
     localStorage.removeItem(MAIN_CONFIG.TOKEN_NAME);
@@ -22,4 +22,4 @@ instance.interceptors.response.use((response) => {
   return Promise.resolve(error);
 });
 
-export default instance;
+export default ajax;

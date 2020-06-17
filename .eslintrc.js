@@ -25,6 +25,9 @@ module.exports = {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-underscore-dangle": 'off',
-    'no-bitwise': 0
+    'no-bitwise': 0,
+    'no-plusplus': 0,
+    'consistent-return': 0,
+    'no-param-reassign': 0
   }
 };

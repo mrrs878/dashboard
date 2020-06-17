@@ -8,8 +8,8 @@ const routes: Array<string> = [];
 
 function walkMenu(menuItem: MenuItemI) {
   if (menuItem.path) routes.push(menuItem.path);
-  if (!menuItem.items) return;
-  menuItem.items.forEach((item) => walkMenu(item));
+  if (!menuItem.children) return;
+  menuItem.children.forEach((item) => walkMenu(item));
 }
 
 export default {
