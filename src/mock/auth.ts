@@ -23,11 +23,11 @@ createMockRes<LoginReqI, LoginResI>(`${BASE_URL}/login`, 'post', (req) => {
     data,
   };
 });
-createMockRes<GetMenuReqI, GetMenuResI>(`${BASE_URL}/menu`, 'get', () => ({
+createMockRes<GetMenuReqI, GetMenusResI>(`${BASE_URL}/menu`, 'get', () => ({
   success: true,
   code: 200,
   msg: '获取成功',
-  data: AUTH_DATA.admin,
+  data: AUTH_DATA,
 }));
 createMockRes<any, LogoutResI>(`${BASE_URL}/logout`, 'post', () => ({
   success: true,

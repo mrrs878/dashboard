@@ -3,5 +3,4 @@ interface RouteConfigI {
   component: any;
   exact?: boolean;
   auth?: boolean;
-  title: string;
 }

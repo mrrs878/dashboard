@@ -1,109 +1,114 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Tree } from 'antd';
-// @ts-ignore
-import { OnDragEnterData, OnDropData } from 'rc-tree';
-import { clone } from 'ramda';
-import { RouteComponentProps } from 'react-router';
+import React, { useState, useEffect } from 'react';
+import { Table, Button } from 'antd';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { ColumnProps } from 'antd/es/table';
 import { connect } from 'react-redux';
+import { compose, curry } from 'ramda';
+import getColumnSearchProps from '../../../components/MTableSearch';
+import dictModule from '../../../modules/dict';
 import { AppState } from '../../../store';
-
-interface PropsI extends RouteComponentProps {
-  state: CommonStateI
-}
+import { getTableFilters } from '../../../components/MTableFilters';
+import { ROUTES_MAP } from '../../../router';
 
 const mapState2Props = (state: AppState) => ({
-  state: state.common,
+  common: state.common,
 });
 
-function walkMenu(item: any) {
-  if (!item.children) return;
-  item.key = item.label;
+interface PropsI extends RouteComponentProps {
+  common: CommonStateI
 }
 
-function formatMenu(src: Array<MenuItemI>) {
-  const tmp = clone(src);
-  tmp.forEach((item) => walkMenu(item));
-  return tmp;
+function getDictListColumns(dicts: Array<DictI>): Array<ColumnProps<DictI>> {
+  return [
+    {
+      title: '名称',
+      dataIndex: 'name',
+      ellipsis: true,
+      ...getColumnSearchProps('name'),
+    },
+    {
+      title: '值',
+      dataIndex: 'value',
+    },
+    {
+      title: '组别',
+      dataIndex: 'label_view',
+      ellipsis: true,
+      onFilter: (value, record) => value === String(record.label_view),
+      ...getColumnSearchProps('label_view'),
+    },
+    {
+      title: '类别',
+      dataIndex: 'type_view',
+      ellipsis: true,
+      onFilter: (value, record) => value === String(record.type),
+      ...getColumnSearchProps('type_view'),
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      filters: getTableFilters<DictI>(dicts, (item: DictI) => item.type === 'common' && item.label === 'status'),
+      onFilter: (value, record) => value === record.status,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'create_time',
+      ellipsis: true,
+      render(text: string, record) {
+        return <span>{ new Date(record.create_time).toLocaleString() }</span>;
+      },
+      sorter: (a, b) => a.create_time - b.create_time,
+      sortDirections: ['descend', 'ascend'],
+    },
+  ];
 }
 
-const Role = (props: PropsI) => {
-  const [treeData, setTreeData] = useState<Array<any>>(formatMenu(props.state.menu));
-  const [expandedKeys, setExpandedKeys] = useState<Array<string>>(['0-0', '0-0-0', '0-0-0-0']);
+const Role: React.FC<PropsI> = (props: PropsI) => {
+  const [dict, setDict] = useState<Array<DictI>>([]);
+  const [dictListColumns, setDictListColumns] = useState<Array<ColumnProps<DictI>>>([]);
+  const [dictCount, setDictCount] = useState(0);
+  const [loadMoreF, setLoadMoreF] = useState(false);
 
-  function onDragEnter(info: OnDragEnterData) {
-    // setExpandedKeys(info.expandedKeys);
-  }
+  useEffect(() => {
+    (async (): Promise<void> => {
+      await dictModule.getDict();
+    })();
+  }, []);
 
-  function onDrop(info: OnDropData) {
-    const dropKey = info.node.props.eventKey;
-    const dragKey = info.dragNode.props.eventKey;
-    const dropPos = info.node.props.pos.split('-');
-    const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
+  useEffect(() => {
+    setDict(props.common.dicts.filter((item) => item.label === 'user_role'));
+    setDictCount(props.common.dicts.length);
+    setDictListColumns(getDictListColumns(props.common.dicts));
+  }, [props.common.dicts]);
 
-    const loop = (data: Array<any>, key: string, callback: (item: any, index: number, arr: Array<any>) => void) => {
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].key === key) {
-          return callback(data[i], i, data);
-        }
-        if (data[i].children) {
-          loop(data[i].children, key, callback);
-        }
-      }
-    };
-    const data = clone(treeData);
-
-    let dragObj: any;
-    loop(data, dragKey, (item, index, arr) => {
-      arr.splice(index, 1);
-      dragObj = item;
-    });
-
-    if (!info.dropToGap) {
-      loop(data, dropKey, (item) => {
-        item.children = item.children || [];
-        item.children.push(dragObj);
-      });
-    } else if (
-      (info.node.props.children || []).length > 0
-      && info.node.props.expanded
-      && dropPosition === 1
-    ) {
-      loop(data, dropKey, (item) => {
-        item.children = item.children || [];
-        item.children.unshift(dragObj);
-      });
-    } else {
-      let ar: Array<any> = [];
-      let i = 0;
-      loop(data, dropKey, (item, index, arr) => {
-        ar = arr;
-        i = index;
-      });
-      if (dropPosition === -1) {
-        ar.splice(i, 0, dragObj);
-      } else {
-        ar.splice(i + 1, 0, dragObj);
-      }
+  async function onLoadMore() {
+    try {
+      setLoadMoreF(true);
+      setLoadMoreF(false);
+    } catch (e) {
+      console.log(e);
     }
-
-    setTreeData(data);
+    setLoadMoreF(true);
   }
+
+  const onDictListRow = (record: DictI) => ({ onClick: () => props.history.push(`${ROUTES_MAP.role}/${record.id}`) });
+
   return (
     <div className="container">
-      <Tree
-        className="draggable-tree"
-        defaultExpandedKeys={expandedKeys}
-        draggable
-        blockNode
-        checkable
-        onDragEnter={onDragEnter}
-        onDrop={onDrop}
-        treeData={treeData}
+      <Table
+        columns={dictListColumns}
+        rowKey={(record) => String(record.id)}
+        onRow={onDictListRow}
+        dataSource={dict}
+        pagination={{ defaultPageSize: 20 }}
+        scroll={{ y: '75vh' }}
       />
-      <br />
-      <Button type="primary" style={{ width: 120 }}>分配</Button>
+      {
+        dictCount > dict.length
+        && <Button style={{ marginLeft: 10, width: 100 }} loading={loadMoreF} onClick={onLoadMore}>加载更多</Button>
+      }
     </div>
   );
 };
 
-export default connect(mapState2Props)(Role);
+export default connect(mapState2Props)(withRouter(Role));

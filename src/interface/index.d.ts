@@ -12,3 +12,5 @@ interface MockReqI<T> {
   type: MockMethodT,
   body: T
 }
+
+type MenuTitlesI = DynamicObjectKey<string>;

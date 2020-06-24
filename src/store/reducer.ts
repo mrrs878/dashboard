@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
 import ActionsT from './types';
-import * as actions from './actions';
 import { DEFAULT_COMMON_STATE } from './state';
+import * as actions from './actions';
 
 function commonReducer(state = DEFAULT_COMMON_STATE, action: ActionsT): CommonStateI {
   switch (action.type) {
@@ -18,6 +18,8 @@ function commonReducer(state = DEFAULT_COMMON_STATE, action: ActionsT): CommonSt
       return { ...state, routes: action.data };
     case actions.UPDATE_DICTS:
       return { ...state, dicts: action.data };
+    case actions.UPDATE_MENU_TITLES:
+      return { ...state, menuTitles: action.data };
     default:
       return state;
   }

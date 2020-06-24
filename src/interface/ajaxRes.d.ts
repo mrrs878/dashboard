@@ -11,7 +11,7 @@ interface GetInfoByTokenResI extends BaseResI<UserI>{
 }
 interface LogoutResI extends BaseResI<any>{
 }
-interface GetMenuResI extends BaseResI<Array<MenuItemI>>{
+interface GetMenusResI extends BaseResI<Array<MenuItemI>>{
 }
 
 interface GetDictsResT extends BaseResI<Array<DictI>>{

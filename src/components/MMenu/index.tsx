@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Layout, Menu, message, Modal } from 'antd';
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import * as _Icon from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
-import * as Icon from '@ant-design/icons';
 import { ClickParam } from 'antd/es/menu';
 import { clone } from 'ramda';
 import style from './index.module.less';
@@ -13,15 +13,22 @@ import { AppState } from '../../store';
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
+const Icon: DynamicObjectKey<any> = clone(_Icon);
 
 const MENU_ITEM_PATH: DynamicObjectKey<string> = clone(ROUTES_MAP);
 
 const mapState2Props = (state: AppState) => ({
-  state: state.common,
+  menu: state.common.menu,
 });
 
-interface PropsI extends RouteComponentProps<any, any> {
-  state: CommonStateI;
+// const mapAction2Props = (dispatch: Dispatch<ActionsT>) => ({
+//   setMenuTitles(data: Array<string>) {
+//     dispatch({ type: actions.UPDATE_MENU_TITLES, data });
+//   },
+// });
+
+interface PropsI extends RouteComponentProps {
+  menu: Array<MenuItemI>;
 }
 
 const MMenu: React.FC<PropsI> = (props: PropsI) => {
@@ -47,29 +54,32 @@ const MMenu: React.FC<PropsI> = (props: PropsI) => {
   function onToggleCollapsedClick() {
     setCollapsed(!collapsed);
   }
+
   function onMenuClick(param: ClickParam) {
     const path = MENU_ITEM_PATH[param.key];
     if (path) MENU_CLICK_HANDLER.navigate(path);
     else MENU_CLICK_HANDLER[param.key]();
   }
 
-  function dynamicIcon(iconType: string) {
-    // @ts-ignore
+  function dynamicIcon(iconType: string | Object | undefined) {
+    if (typeof iconType !== 'string') return iconType;
     return iconType ? React.createElement(Icon[iconType]) : '';
   }
 
   function walkMenu(item: MenuItemI) {
+    item.icon = dynamicIcon(item.icon_name);
     if (Reflect.has(item, 'children')) {
       return (
-        <SubMenu key={item.label} icon={dynamicIcon(item.icon)} title={item.title}>
+        <SubMenu key={item.key} icon={item.icon} title={item.title}>
           {
             item.children?.map((child) => walkMenu(child))
           }
         </SubMenu>
       );
     }
-    return <Menu.Item icon={dynamicIcon(item.icon)} key={item.label}>{ item.title }</Menu.Item>;
+    return <Menu.Item icon={item.icon} key={item.key}>{ item.title }</Menu.Item>;
   }
+
   function generateMenu(menuTree: Array<MenuItemI>) {
     return (
       <Menu onClick={onMenuClick} mode="inline" theme="dark">
@@ -87,7 +97,7 @@ const MMenu: React.FC<PropsI> = (props: PropsI) => {
           {collapsed ? <MenuUnfoldOutlined style={{ fontSize: 24 }} /> : <MenuFoldOutlined style={{ fontSize: 24 }} />}
         </div>
         {
-          generateMenu(props.state.menu)
+          generateMenu(props.menu)
         }
         <Modal
           title="提示"

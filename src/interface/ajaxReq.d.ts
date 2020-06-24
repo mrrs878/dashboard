@@ -21,3 +21,7 @@ interface CreateDictReqT extends DictI{
 interface DeleteDictReqT {
   id: number
 }
+
+interface GetMenuReqI {
+  role: string
+}

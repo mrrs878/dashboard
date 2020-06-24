@@ -13,8 +13,9 @@ type UpdateMenu = ActionTypeT<actions.UPDATE_MENU, Array<MenuItemI>>;
 type UpdateRoutes = ActionTypeT<actions.UPDATE_ROUTES, Array<string>>;
 type UpdateDicts = ActionTypeT<actions.UPDATE_DICTS, Array<DictI>>;
 type UpdateDict = ActionTypeT<actions.UPDATE_DICT, DictI>;
+type UpdateMenuTitles = ActionTypeT<actions.UPDATE_MENU_TITLES, MenuTitlesI>;
 
 type ActionsT = IncreaseCountT | DecreaseCountT | UpdateUser
-| ClearUser | UpdateMenu | UpdateRoutes | UpdateDicts | UpdateDict;
+| ClearUser | UpdateMenu | UpdateRoutes | UpdateDicts | UpdateDict | UpdateMenuTitles;
 
 export default ActionsT;

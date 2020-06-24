@@ -28,6 +28,6 @@ module.exports = {
     'no-bitwise': 0,
     'no-plusplus': 0,
     'consistent-return': 0,
-    'no-param-reassign': 0
+    'no-param-reassign': 0,
   }
 };

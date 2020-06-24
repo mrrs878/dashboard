@@ -4,4 +4,5 @@ interface CommonStateI {
   menu: Array<MenuItemI>;
   routes: Array<string>;
   dicts: Array<DictI>;
+  menuTitles: MenuTitlesI
 }

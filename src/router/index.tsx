@@ -1,17 +1,28 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, withRouter } from 'react-router-dom';
 import { Layout } from 'antd';
 
+import { connect } from 'react-redux';
 import MAIN_CONFIG from '../config';
 import MLoading from '../components/MLoading';
-import { AUTH_ROUTES, AUTH_ROUTES_MAP, AUTH_ROUTES_TITLE, LOGIN } from './authRoutes';
-import { HOME_ROUTES, HOME_ROUTES_TITLE, HOME_ROUTES_MAP } from './homeRoutes';
-import { PROFILE_ROUTES, PROFILE_ROUTES_TITLE, PROFILE_ROUTES_MAP } from './profileRoutes';
-import { SETTING_ROUTES, SETTING_ROUTES_TITLE, SETTING_ROUTES_MAP } from './settingRoutes';
-import { ABOUT_ROUTES, ABOUT_ROUTES_TITLE, ABOUT_ROUTES_MAP } from './aboutRoutes';
+import { AUTH_ROUTES, AUTH_ROUTES_MAP, LOGIN } from './authRoutes';
+import { HOME_ROUTES, HOME_ROUTES_MAP } from './homeRoutes';
+import { PROFILE_ROUTES, PROFILE_ROUTES_MAP } from './profileRoutes';
+import { SETTING_ROUTES, SETTING_ROUTES_MAP } from './settingRoutes';
+import { ABOUT_ROUTES, ABOUT_ROUTES_MAP } from './aboutRoutes';
+import { DASHBOARD_ROUTES, DASHBOARD_ROUTES_MAP } from './dashboard';
 import MMenu from '../components/MMenu';
 import MHeader from '../components/MHeader';
 import MPageHeader from '../components/MPageHeader/inedx';
+import { AppState } from '../store';
+
+interface PropsI {
+  menuTitles: MenuTitlesI
+}
+
+const mapState2Props = (state: AppState) => ({
+  menuTitles: state.common.menuTitles,
+});
 
 const { Content } = Layout;
 
@@ -21,14 +32,7 @@ const ROUTES_MAP = {
   ...PROFILE_ROUTES_MAP,
   ...SETTING_ROUTES_MAP,
   ...ABOUT_ROUTES_MAP,
-};
-
-const ROUTES_TITLE: DynamicObjectKey<string> = {
-  ...AUTH_ROUTES_TITLE,
-  ...HOME_ROUTES_TITLE,
-  ...PROFILE_ROUTES_TITLE,
-  ...SETTING_ROUTES_TITLE,
-  ...ABOUT_ROUTES_TITLE,
+  ...DASHBOARD_ROUTES_MAP,
 };
 
 const ROUTES: Array<RouteConfigI> = [
@@ -37,12 +41,13 @@ const ROUTES: Array<RouteConfigI> = [
   ...PROFILE_ROUTES,
   ...SETTING_ROUTES,
   ...ABOUT_ROUTES,
+  ...DASHBOARD_ROUTES,
 ];
 
-const Router: React.FC = () => {
+const Router = (props: PropsI) => {
   function beforeEach(route: RouteConfigI) {
     const Com = route.component;
-    document.title = route.title;
+    document.title = props.menuTitles[route.path] || MAIN_CONFIG.APP_NAME;
     if (localStorage.getItem(MAIN_CONFIG.TOKEN_NAME) || route.auth === false) {
       return <Com />;
     }
@@ -80,6 +85,5 @@ const Router: React.FC = () => {
 
 export {
   ROUTES_MAP,
-  ROUTES_TITLE,
 };
-export default Router;
+export default connect(mapState2Props)(Router);

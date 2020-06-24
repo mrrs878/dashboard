@@ -7,7 +7,7 @@ import getColumnSearchProps from '../../../components/MTableSearch';
 import dictModule from '../../../modules/dict';
 import { AppState } from '../../../store';
 import { getTableFilters } from '../../../components/MTableFilters';
-import {SETTING_ROUTES_MAP} from "../../../router/settingRoutes";
+import { SETTING_ROUTES_MAP } from '../../../router/settingRoutes';
 
 const mapState2Props = (state: AppState) => ({
   common: state.common,

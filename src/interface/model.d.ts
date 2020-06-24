@@ -6,11 +6,13 @@ interface UserI {
 }
 
 interface MenuItemI {
-  label: string;
-  icon?: any;
+  key: string;
+  icon?: Object;
+  icon_name?: string;
   title: string;
   path?: string;
   children?: Array<MenuItemI>;
+  role?: Array<number>
 }
 
 interface DictI {

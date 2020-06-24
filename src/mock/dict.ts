@@ -12,7 +12,7 @@ createMockRes<GetDictsReqT, GetDictsResT>(`${BASE_URL}/dict`, 'get', () => ({
 
 createMockRes<GetDictReqT, GetDictResT>(new RegExp(`${BASE_URL}/dict/\\d+`), 'get', (req) => {
   // @ts-ignore
-  const id: number = req.url.match(/(\d+)$/)[0];
+  const id: number = (req.url.match(/(\d+)$/)[0]) >> 0;
   return ({
     success: true,
     code: 200,

@@ -12,3 +12,5 @@ export const UPDATE_DICTS = 'UPDATE_DICTS';
 export type UPDATE_DICTS = typeof UPDATE_DICTS;
 export const UPDATE_DICT = 'UPDATE_DICT';
 export type UPDATE_DICT = typeof UPDATE_DICT;
+export const UPDATE_MENU_TITLES = 'UPDATE_MENU_TITLES';
+export type UPDATE_MENU_TITLES = typeof UPDATE_MENU_TITLES;
