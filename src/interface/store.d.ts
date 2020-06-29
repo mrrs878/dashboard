@@ -2,7 +2,7 @@ interface CommonStateI {
   count: number,
   user: UserI,
   menu: Array<MenuItemI>;
-  routes: Array<string>;
+  menuRoutes: MenuRoutesI;
   dicts: Array<DictI>;
   menuTitles: MenuTitlesI
 }

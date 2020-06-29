@@ -1,19 +1,37 @@
+import { clone } from 'ramda';
 import apis from '../api';
 import store, { actions } from '../store';
 import MAIN_CONFIG from '../config';
 
 const { LOGIN, LOGOUT, GET_MENUS } = apis;
 
-const routes: Array<string> = [];
-const menuTitles: DynamicObjectKey<string> = {};
+function menuArray2Tree(src: Array<MenuItemI>) {
+  const res: Array<MenuItemI> = [];
+  clone<Array<MenuItemI>>(src).forEach((item) => {
+    const parent = res.find((_item) => _item.key === item.parent);
+    if (parent) {
+      parent.children = parent.children || [];
+      parent.children?.push(item);
+    } else res.push(item);
+  });
+  return res;
+}
 
-function walkMenu(menuItem: MenuItemI) {
-  if (menuItem.path) {
-    routes.push(menuItem.path);
-    menuTitles[menuItem.path] = menuItem.title;
-  }
-  if (!menuItem.children) return;
-  menuItem.children.forEach((item) => walkMenu(item));
+function getMenuTitles(src: Array<MenuItemI>) {
+  const menuTitles: DynamicObjectKey<string> = {};
+  src.forEach((item) => {
+    menuTitles[item.path] = item.title;
+  });
+  return menuTitles;
+}
+
+function getMenuRoutes(src: Array<MenuItemI>) {
+  const menuRoutes: DynamicObjectKey<string> = {};
+  src.forEach((item) => {
+    menuRoutes[item.key] = item.path;
+  });
+  console.log(menuRoutes)
+  return menuRoutes;
 }
 
 export default {
@@ -56,10 +74,9 @@ export default {
     try {
       const res = await GET_MENUS();
       if (!res.success) return;
-      res.data.forEach((item) => walkMenu(item));
-      store.dispatch({ type: actions.UPDATE_MENU, data: res.data });
-      store.dispatch({ type: actions.UPDATE_ROUTES, data: routes });
-      store.dispatch({ type: actions.UPDATE_MENU_TITLES, data: menuTitles });
+      store.dispatch({ type: actions.UPDATE_MENU_TITLES, data: getMenuTitles(res.data) });
+      store.dispatch({ type: actions.UPDATE_MENU_ROUTES, data: getMenuRoutes(res.data) });
+      store.dispatch({ type: actions.UPDATE_MENU, data: menuArray2Tree(res.data) });
     } catch (e) {
       console.log(e);
     }

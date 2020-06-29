@@ -6,7 +6,6 @@ import { clone } from 'ramda';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { AppState } from '../../../store';
-import { GET_MENU } from '../../../api/auth';
 
 interface PropsI extends RouteComponentProps<{ id: string }> {
   state: CommonStateI
@@ -15,19 +14,6 @@ interface PropsI extends RouteComponentProps<{ id: string }> {
 const mapState2Props = (state: AppState) => ({
   state: state.common,
 });
-
-function formatMenu(src: Array<MenuItemI>) {
-  const tmp = clone(src);
-
-  function addMenuItemKey(menuItem: any) {
-    menuItem.key = menuItem.label;
-    if (!menuItem.children) return;
-    menuItem.children.forEach((item: unknown) => addMenuItemKey(item));
-  }
-
-  tmp.forEach((item) => addMenuItemKey(item));
-  return tmp;
-}
 
 function getExpandKeys(src: Array<MenuItemI>, role: number) {
   if (role === -1) return [];
@@ -45,7 +31,7 @@ function getExpandKeys(src: Array<MenuItemI>, role: number) {
 }
 
 const RoleDetail = (props: PropsI) => {
-  const [treeData, setTreeData] = useState<Array<any>>(formatMenu(props.state.menu));
+  const [treeData, setTreeData] = useState<Array<any>>(props.state.menu);
   const [expandKeys, setExpandedKeys] = useState<Array<string>>([]);
   const [checkedKeys, setCheckedKeys] = useState<Array<ReactText>>([]);
   const [roleMenus, setRoleMenus] = useState<Array<MenuItemI>>([]);

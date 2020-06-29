@@ -2,7 +2,7 @@ import React, { ReactText, useEffect, useState } from 'react';
 import { Button, Tree, Modal, Input, Form, Divider } from 'antd';
 // @ts-ignore
 import { SelectData } from 'rc-tree';
-import { and, append, clone, compose, curry, ifElse, isEmpty, isNil, last, prop, test, when } from 'ramda';
+import { and, clone, compose, curry, ifElse, prop, test } from 'ramda';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -41,11 +41,13 @@ const tailFormItemLayout = {
 
 function formatMenu(src: Array<MenuItemI>) {
   const tmp: Array<MenuItemI> = clone(src);
-  tmp.push({ icon: <PlusCircleOutlined />, title: '添加', key: 'addMenuItem' });
+  tmp.push({ icon: <PlusCircleOutlined />, title: '添加', key: 'addMenuItem', sub_menu: [], parent: 'root', path: '' });
 
   function addAddMenu(menuItem: MenuItemI) {
     if (!menuItem.children) return;
-    menuItem.children.push({ icon: <PlusCircleOutlined />, title: '添加', key: `addMenuItem${menuItem.key}` });
+    menuItem.children?.push(
+      { icon: <PlusCircleOutlined />, title: '添加', key: `addMenuItem${menuItem.key}`, sub_menu: [], parent: menuItem.key, path: '' }
+      );
   }
   tmp.forEach((item) => addAddMenu(item));
 
@@ -88,10 +90,12 @@ const MenuSetting = (props: PropsI) => {
     edit() {},
     add(values: any) {
       const tmp: MenuItemI = values as MenuItemI;
-      const _selectedPos = clone<MenuItemI>(selectedPos);
+      const _selectedPos = clone<Array<MenuItemI>>(selectedPos);
       const addMenu = _selectedPos.pop();
       _selectedPos.push(tmp);
       if (addMenu) _selectedPos.push(addMenu);
+      setSelectedPos(_selectedPos);
+      setIsEdit(false);
       console.log(_selectedPos);
     },
   };

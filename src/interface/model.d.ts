@@ -10,8 +10,10 @@ interface MenuItemI {
   icon?: Object;
   icon_name?: string;
   title: string;
-  path?: string;
+  path: string;
   children?: Array<MenuItemI>;
+  sub_menu: Array<string>;
+  parent: string;
   role?: Array<number>
 }
 

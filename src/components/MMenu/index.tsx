@@ -15,10 +15,9 @@ const { SubMenu } = Menu;
 const { Sider } = Layout;
 const Icon: DynamicObjectKey<any> = clone(_Icon);
 
-const MENU_ITEM_PATH: DynamicObjectKey<string> = clone(ROUTES_MAP);
-
 const mapState2Props = (state: AppState) => ({
   menu: state.common.menu,
+  menuRoutes: state.common.menuRoutes,
 });
 
 // const mapAction2Props = (dispatch: Dispatch<ActionsT>) => ({
@@ -29,6 +28,7 @@ const mapState2Props = (state: AppState) => ({
 
 interface PropsI extends RouteComponentProps {
   menu: Array<MenuItemI>;
+  menuRoutes: MenuRoutesI;
 }
 
 const MMenu: React.FC<PropsI> = (props: PropsI) => {
@@ -56,7 +56,7 @@ const MMenu: React.FC<PropsI> = (props: PropsI) => {
   }
 
   function onMenuClick(param: ClickParam) {
-    const path = MENU_ITEM_PATH[param.key];
+    const path = props.menuRoutes[param.key];
     if (path) MENU_CLICK_HANDLER.navigate(path);
     else MENU_CLICK_HANDLER[param.key]();
   }

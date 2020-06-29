@@ -14,3 +14,5 @@ interface MockReqI<T> {
 }
 
 type MenuTitlesI = DynamicObjectKey<string>;
+
+type MenuRoutesI = DynamicObjectKey<string>;
