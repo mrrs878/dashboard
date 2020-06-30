@@ -1,12 +1,13 @@
 import React, { ReactText, useEffect, useState } from 'react';
 import { Button, Tree, Modal, Input, Form, Divider, Radio } from 'antd';
-import * as Icons from '@ant-design/icons';
+import * as _Icons from '@ant-design/icons';
 // @ts-ignore
 import { SelectData } from 'rc-tree';
-import { and, clone, compose, equals, ifElse, isNil, prop, test } from 'ramda';
+import {and, clone, compose, equals, ifElse, isEmpty, isNil, or, prop, test} from 'ramda';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { PlusCircleOutlined } from '@ant-design/icons';
+import { RuleObject, StoreValue } from 'rc-field-form/lib/interface';
 
 import { AppState } from '../../../store';
 import AUTH_MODULE from '../../../modules/auth';
@@ -14,6 +15,8 @@ import AUTH_MODULE from '../../../modules/auth';
 interface PropsI extends RouteComponentProps<{ id: string }> {
   state: CommonStateI
 }
+
+const Icons = clone<DynamicObjectKey<any>>(_Icons);
 
 const mapState2Props = (state: AppState) => ({
   state: state.common,
@@ -102,7 +105,7 @@ const MenuSetting = (props: PropsI) => {
         const newMenuArray = clone<Array<MenuItemI>>(props.state.menu);
         const parentMenu = newMenuArray.find((item) => item.key === selectedMenu?.parent);
         newMenuItem.key = `${selectedMenu?.parent}${newMenuItem.path}`;
-        newMenuItem.path = `${parentMenu?.path}/${newMenuItem.path}`;
+        newMenuItem.path = `${parentMenu?.path ?? ''}/${newMenuItem.path}`;
         newMenuItem.parent = selectedMenu?.parent ?? '';
         const addMenuItem2Root = () => newMenuArray.push(newMenuItem);
         const addMenuItem2Inner = () => parentMenu?.children?.push(newMenuItem);
@@ -124,7 +127,7 @@ const MenuSetting = (props: PropsI) => {
         setIsEdit(false);
       };
 
-      ifElse(isNil, addChildren, addInnerOrRoot)(selectedMenu?.children);
+      ifElse(equals('添加'), addInnerOrRoot, addChildren)(selectedMenu?.title);
     },
   };
 
@@ -153,7 +156,10 @@ const MenuSetting = (props: PropsI) => {
     setIsEdit(false);
   }
 
-  function onIconInputBlur(value: any) {
+  function validateIcon(rule: RuleObject, value: StoreValue) {
+    if (!value) return Promise.resolve();
+    const Icon = Icons[value];
+    return isNil(Icon) ? Promise.reject(new Error('该图标不存在，请输入其他值')) : Promise.resolve();
   }
 
   return (
@@ -205,11 +211,10 @@ const MenuSetting = (props: PropsI) => {
             <Form.Item
               label="图标"
               name="icon_name"
-              rules={[{ required: isIcon, message: '请输入图标' }]}
+              rules={[{ validator: validateIcon }]}
             >
               <Input
                 disabled={!isIcon}
-                onBlur={onIconInputBlur}
                 addonAfter={<a href="https://ant.design/components/icon-cn/" rel="noreferrer" target="_blank">图标参考</a>}
               />
             </Form.Item>
