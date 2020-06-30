@@ -14,7 +14,8 @@ interface MenuItemI {
   children?: Array<MenuItemI>;
   sub_menu: Array<string>;
   parent: string;
-  role?: Array<number>
+  role?: Array<number>;
+  status: number;
 }
 
 interface DictI {

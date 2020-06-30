@@ -69,12 +69,6 @@ const Dict: React.FC<PropsI> = (props: PropsI) => {
   const [loadMoreF, setLoadMoreF] = useState(false);
 
   useEffect(() => {
-    (async (): Promise<void> => {
-      await dictModule.getDict();
-    })();
-  }, []);
-
-  useEffect(() => {
     setDict(props.common.dicts);
     setDictCount(props.common.dicts.length);
     setDictListColumns(getDictListColumns(props.common.dicts));

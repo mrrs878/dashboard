@@ -30,11 +30,10 @@ function getMenuRoutes(src: Array<MenuItemI>) {
   src.forEach((item) => {
     menuRoutes[item.key] = item.path;
   });
-  console.log(menuRoutes)
   return menuRoutes;
 }
 
-export default {
+const AUTH_MODULE = {
   async login(data: LoginReqI) {
     try {
       const res = await LOGIN(data);
@@ -70,15 +69,20 @@ export default {
       };
     }
   },
+  generateMenuTree(src: Array<MenuItemI>) {
+    store.dispatch({ type: actions.UPDATE_MENU, data: menuArray2Tree(src) });
+  },
   async getMenu() {
     try {
       const res = await GET_MENUS();
       if (!res.success) return;
       store.dispatch({ type: actions.UPDATE_MENU_TITLES, data: getMenuTitles(res.data) });
       store.dispatch({ type: actions.UPDATE_MENU_ROUTES, data: getMenuRoutes(res.data) });
-      store.dispatch({ type: actions.UPDATE_MENU, data: menuArray2Tree(res.data) });
+      this.generateMenuTree(res.data);
     } catch (e) {
       console.log(e);
     }
   },
 };
+
+export default AUTH_MODULE;

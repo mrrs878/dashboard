@@ -80,7 +80,8 @@ const MMenu: React.FC<PropsI> = (props: PropsI) => {
     return <Menu.Item icon={item.icon} key={item.key}>{ item.title }</Menu.Item>;
   }
 
-  function generateMenu(menuTree: Array<MenuItemI>) {
+  function generateMenu(menuTree: Array<MenuItemI> | undefined) {
+    if (!menuTree) return;
     return (
       <Menu onClick={onMenuClick} mode="inline" theme="dark">
         {
