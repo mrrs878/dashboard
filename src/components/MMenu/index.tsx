@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Layout, Menu, message, Modal } from 'antd';
+import { Layout, Menu, message, Modal, Button } from 'antd';
 import * as _Icon from '@ant-design/icons';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
@@ -94,9 +94,11 @@ const MMenu: React.FC<PropsI> = (props: PropsI) => {
   return props.location.pathname === ROUTES_MAP.login ? <></> : (
     <Sider collapsed={collapsed} trigger={null}>
       <div className={style.menuContainer}>
-        <div role="button" className={style.menuHeader} onClick={onToggleCollapsedClick}>
-          {collapsed ? <MenuUnfoldOutlined style={{ fontSize: 24 }} /> : <MenuFoldOutlined style={{ fontSize: 24 }} />}
-        </div>
+        <Button
+          className={style.menuHeader}
+          onClick={onToggleCollapsedClick}
+          icon={collapsed ? <MenuUnfoldOutlined style={{ fontSize: 24 }} /> : <MenuFoldOutlined style={{ fontSize: 24 }} />}
+        />
         {
           generateMenu(props.menu)
         }

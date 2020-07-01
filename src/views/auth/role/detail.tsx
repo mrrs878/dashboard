@@ -1,7 +1,7 @@
 import React, { ReactText, useEffect, useState } from 'react';
 import { Button, Tree } from 'antd';
 // @ts-ignore
-import { CheckData, OnDragEnterData, OnDropData } from 'rc-tree';
+import { OnDragEnterData, OnDropData } from 'rc-tree';
 import { clone } from 'ramda';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
@@ -110,20 +110,22 @@ const RoleDetail = (props: PropsI) => {
 
   return (
     <div className="container">
-      <Tree
-        className="draggable-tree"
-        defaultExpandAll
-        draggable
-        blockNode
-        checkable
-        onDragEnter={onDragEnter}
-        onDrop={onDrop}
-        onCheck={onCheck}
-        checkedKeys={checkedKeys}
-        treeData={treeData}
-      />
-      <br />
-      <Button type="primary" style={{ width: 120 }}>分配</Button>
+      <div style={{ paddingLeft: 120, width: 360 }}>
+        <Tree
+          className="draggable-tree"
+          defaultExpandAll
+          draggable
+          blockNode
+          checkable
+          onDragEnter={onDragEnter}
+          onDrop={onDrop}
+          onCheck={onCheck}
+          checkedKeys={checkedKeys}
+          treeData={treeData}
+        />
+        <br />
+        <Button type="primary" style={{ width: 120 }}>分配</Button>
+      </div>
     </div>
   );
 };

@@ -5,11 +5,11 @@ import { Form, Input, Button, Space } from 'antd';
 import style from './index.module.less';
 
 const layout = {
-  labelCol: { span: 6, offset: 3 },
-  wrapperCol: { span: 6 },
+  labelCol: { span: 7, offset: 3 },
+  wrapperCol: { span: 3 },
 };
 const tailLayout = {
-  wrapperCol: { offset: 11, span: 2 },
+  wrapperCol: { offset: 11, span: 1 },
 };
 
 interface PropsI extends RouteComponentProps<any, any> {
@@ -53,9 +53,8 @@ const Login = () => {
         <Form.Item wrapperCol={tailLayout.wrapperCol}>
           <Space direction="vertical">
             <Button type="primary" htmlType="submit" className={style.login}>
-              登录
+              注册
             </Button>
-            <p className={`${style.reg} clickAble`}>注册</p>
           </Space>
         </Form.Item>
       </Form>

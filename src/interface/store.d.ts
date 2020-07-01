@@ -4,5 +4,6 @@ interface CommonStateI {
   menu: Array<MenuItemI>;
   menuRoutes: MenuRoutesI;
   dicts: Array<DictI>;
-  menuTitles: MenuTitlesI
+  menuTitles: MenuTitlesI;
+  fullScreen: boolean;
 }

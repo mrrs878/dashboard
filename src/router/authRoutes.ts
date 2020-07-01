@@ -18,10 +18,12 @@ const AUTH_ROUTES: Array<RouteConfigI> = [
   {
     path: AUTH_ROUTES_MAP.login,
     component: LOGIN,
+    auth: false,
   },
   {
     path: AUTH_ROUTES_MAP.reg,
     component: REG,
+    auth: false,
   },
   {
     path: AUTH_ROUTES_MAP.role,

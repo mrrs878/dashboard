@@ -7,4 +7,5 @@ export const DEFAULT_COMMON_STATE: CommonStateI = {
   menuRoutes: {},
   dicts: [],
   menuTitles: {},
+  fullScreen: false,
 };

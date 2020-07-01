@@ -7,11 +7,11 @@ import userModule from '../../../modules/user';
 import authModule from '../../../modules/auth';
 
 const layout = {
-  labelCol: { span: 6, offset: 3 },
-  wrapperCol: { span: 6 },
+  labelCol: { span: 7, offset: 3 },
+  wrapperCol: { span: 3 },
 };
 const tailLayout = {
-  wrapperCol: { offset: 11, span: 2 },
+  wrapperCol: { offset: 11, span: 1 },
 };
 
 interface PropsI extends RouteComponentProps<any, any> {
@@ -34,7 +34,7 @@ const Index = (props: PropsI) => {
   }
 
   return (
-    <div className="container" style={{ justifyContent: 'center' }}>
+    <div className="container" style={{ justifyContent: 'center', marginTop: 0 }}>
       <Form
         labelCol={layout.labelCol}
         wrapperCol={layout.wrapperCol}
@@ -64,7 +64,7 @@ const Index = (props: PropsI) => {
             <Button type="primary" htmlType="submit" className={style.login}>
               登录
             </Button>
-            <button type="button" className={`${style.reg} simpleButton`} onClick={onRegClick}>注册</button>
+            {/* <button type="button" className={`${style.reg} simpleButton`} onClick={onRegClick}>注册</button> */}
           </Space>
         </Form.Item>
       </Form>

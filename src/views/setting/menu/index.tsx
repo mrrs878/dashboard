@@ -3,7 +3,7 @@ import { Button, Tree, Modal, Input, Form, Divider, Radio } from 'antd';
 import * as _Icons from '@ant-design/icons';
 // @ts-ignore
 import { SelectData } from 'rc-tree';
-import {and, clone, compose, equals, ifElse, isEmpty, isNil, or, prop, test} from 'ramda';
+import { and, clone, compose, equals, ifElse, isEmpty, isNil, or, prop, test } from 'ramda';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -93,6 +93,7 @@ const MenuSetting = (props: PropsI) => {
     },
     addSecond() {
       form.resetFields();
+      setIsIcon(false);
       setIsAddChildren(false);
     },
   };
@@ -148,7 +149,7 @@ const MenuSetting = (props: PropsI) => {
     const isAddMenuItem = compose(test(/add\w+/g), prop<'key', string>('key'));
     setSelectedMenu(_selectMenu);
     setIsIcon(_selectMenu.parent === 'root');
-    setIsAddChildren(isNil(_selectMenu.children));
+    setIsAddChildren(!isAddMenuItem(_selectMenu));
     ifElse(isAddMenuItem, menuItemClickHandlers.add, menuItemClickHandlers.common)(_selectMenu);
   }
 

@@ -20,6 +20,8 @@ function commonReducer(state = DEFAULT_COMMON_STATE, action: ActionsT): CommonSt
       return { ...state, dicts: action.data };
     case actions.UPDATE_MENU_TITLES:
       return { ...state, menuTitles: action.data };
+    case actions.UPDATE_FULL_SCREEN:
+      return { ...state, fullScreen: action.data };
     default:
       return state;
   }
