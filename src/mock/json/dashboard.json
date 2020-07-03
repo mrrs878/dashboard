@@ -1,0 +1,74 @@
+[
+  {
+    "group": "common",
+    "label": "newVisits",
+    "key": "newVisits",
+    "value": 102400
+  },
+  {
+    "group": "common",
+    "label": "message",
+    "key": "message",
+    "value": 81212
+  },
+  {
+    "group": "common",
+    "label": "purchase",
+    "key": "purchase",
+    "value": 9280
+  },
+  {
+    "group": "common",
+    "label": "shopping",
+    "key": "shopping",
+    "value": 13600
+  },
+  {
+    "group": "pv",
+    "label": "main",
+    "key": "main",
+    "value": 13600
+  },
+  {
+    "group": "pv",
+    "label": "profile",
+    "key": "profile",
+    "value": 18000
+  },
+  {
+    "group": "pv",
+    "label": "auth",
+    "key": "auth",
+    "value": 12600
+  },
+  {
+    "group": "pv",
+    "label": "setting",
+    "key": "setting",
+    "value": 18000
+  },
+  {
+    "group": "uv",
+    "label": "1593532800000",
+    "key": "1593532800000",
+    "value": 8000
+  },
+  {
+    "group": "uv",
+    "label": "1593619200000",
+    "key": "1593619200000",
+    "value": 19000
+  },
+  {
+    "group": "uv",
+    "label": "1593705600000",
+    "key": "1593705600000",
+    "value": 16000
+  },
+  {
+    "group": "uv",
+    "label": "1593792000000",
+    "key": "1593792000000",
+    "value": 18000
+  }
+]

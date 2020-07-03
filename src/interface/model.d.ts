@@ -42,3 +42,10 @@ interface AjaxErrorI extends Error{
 interface CommonErrorI extends Error{
   date: number;
 }
+
+interface DashboardDataI {
+  group: string;
+  label: string;
+  key: string;
+  value: number;
+}

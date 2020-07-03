@@ -1,9 +1,9 @@
 import React, { ReactText, useEffect, useState } from 'react';
-import { Button, Tree, Modal, Input, Form, Divider, Radio } from 'antd';
+import { Button, Tree, Modal, Input, Form, Divider, Radio, Select } from 'antd';
 import * as _Icons from '@ant-design/icons';
 // @ts-ignore
 import { SelectData } from 'rc-tree';
-import { and, clone, compose, equals, ifElse, isEmpty, isNil, or, prop, test } from 'ramda';
+import { and, clone, compose, equals, find, ifElse, isEmpty, isNil, or, prop, test } from 'ramda';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -60,11 +60,16 @@ function formatMenu(src: Array<MenuItemI>) {
   return tmp;
 }
 
+function findMenuItemParent(menuItem: MenuItemI) {
+  return (src: Array<MenuItemI>) => find<MenuItemI>((item) => item.key === menuItem.parent, src);
+}
+
 const MenuSetting = (props: PropsI) => {
   const [treeData, setTreeData] = useState<Array<MenuItemI>>([]);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [createOrUpdate, setCreateOrUpdate] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState<MenuItemI>();
+  const [selectedMenuParent, setSelectedMenuParent] = useState<MenuItemI>();
   const [dictStatus, setDictStatus] = useState<Array<{ value: number; title: string }>>([]);
   const [isIcon, setIsIcon] = useState<boolean>(false);
   const [isAddChildren, setIsAddChildren] = useState<boolean>(false);
@@ -148,6 +153,7 @@ const MenuSetting = (props: PropsI) => {
     const _selectMenu: MenuItemI = info.selectedNodes[0];
     const isAddMenuItem = compose(test(/add\w+/g), prop<'key', string>('key'));
     setSelectedMenu(_selectMenu);
+    compose(setSelectedMenuParent, findMenuItemParent(_selectMenu))(props.state.menu);
     setIsIcon(_selectMenu.parent === 'root');
     setIsAddChildren(!isAddMenuItem(_selectMenu));
     ifElse(isAddMenuItem, menuItemClickHandlers.add, menuItemClickHandlers.common)(_selectMenu);
@@ -190,25 +196,14 @@ const MenuSetting = (props: PropsI) => {
             >
               <Input placeholder="请输入名称" />
             </Form.Item>
-            {
-              createOrUpdate ? (
-                <Form.Item
-                  label="key"
-                  name="path"
-                  rules={[{ required: true, message: '请输入key' }]}
-                >
-                  <Input placeholder="请输入key" />
-                </Form.Item>
-              ) : (
-                <Form.Item
-                  label="路由"
-                  name="path"
-                  rules={[{ required: true, message: '请输入路由' }]}
-                >
-                  <Input placeholder="请输入路由" />
-                </Form.Item>
-              )
-            }
+            <Form.Item
+              label="路由"
+              name="path"
+              normalize={(value) => { console.log(value); }}
+              rules={[{ required: true, message: '请输入路由' }]}
+            >
+              <Input addonBefore={<span>{ `${selectedMenuParent?.path}/` }</span>} placeholder="请输入路由" />
+            </Form.Item>
             <Form.Item
               label="图标"
               name="icon_name"

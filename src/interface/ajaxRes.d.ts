@@ -19,3 +19,6 @@ interface GetDictsResT extends BaseResI<Array<DictI>>{
 
 interface GetDictResT extends BaseResI<DictI>{
 }
+
+interface GetDashboardDataResI extends BaseResI<Array<DashboardDataI>>{
+}

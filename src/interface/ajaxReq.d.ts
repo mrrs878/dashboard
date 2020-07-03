@@ -25,3 +25,6 @@ interface DeleteDictReqT {
 interface GetMenuReqI {
   role: string
 }
+
+interface GetDashboardDataReqI {
+}
