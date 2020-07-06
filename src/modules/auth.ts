@@ -78,6 +78,7 @@ const AUTH_MODULE = {
       if (!res.success) return;
       store.dispatch({ type: actions.UPDATE_MENU_TITLES, data: getMenuTitles(res.data) });
       store.dispatch({ type: actions.UPDATE_MENU_ROUTES, data: getMenuRoutes(res.data) });
+      store.dispatch({ type: actions.UPDATE_MENU_ARRAY, data: res.data });
       this.generateMenuTree(res.data);
     } catch (e) {
       console.log(e);

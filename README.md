@@ -42,6 +42,13 @@
 2. 若`localStorage.getItem('access_token'')`为空并且`route.auth !== false`，重定向到`/auth/login`
 3. 返回`route.path`对应的界面
 
+## 菜单编辑（`src/views/setting/meny/index.tsx`）
+
+1. 应用加载时获取所有的菜单项`menuItemArray: Array<MenuItemI>>`，存至`redux`（`src/module/auth.ts`）
+2. 编辑页面渲染一个树结构来展示
+3. 点击任一菜单项弹出表单来编辑当前项或添加子项
+4. 点击完成后会将新的项目和老的`menuItemArray`合并为一个新数组，并使用该新数组重新渲染树结构（`menuArray2Tree@src/module/auth.ts`）
+
 ## 一些注意点
 
 - 页面整体布局

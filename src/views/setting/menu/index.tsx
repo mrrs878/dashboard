@@ -1,9 +1,9 @@
 import React, { ReactText, useEffect, useState } from 'react';
-import { Button, Tree, Modal, Input, Form, Divider, Radio, Select } from 'antd';
+import { Button, Tree, Modal, Input, Form, Divider, Radio } from 'antd';
 import * as _Icons from '@ant-design/icons';
 // @ts-ignore
 import { SelectData } from 'rc-tree';
-import { and, clone, compose, equals, find, ifElse, isEmpty, isNil, or, prop, test } from 'ramda';
+import { and, clone, compose, curry, equals, find, ifElse, isNil, last, prop, test } from 'ramda';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -11,6 +11,7 @@ import { RuleObject, StoreValue } from 'rc-field-form/lib/interface';
 
 import { AppState } from '../../../store';
 import AUTH_MODULE from '../../../modules/auth';
+import MAIN_CONFIG from '../../../config';
 
 interface PropsI extends RouteComponentProps<{ id: string }> {
   state: CommonStateI
@@ -47,16 +48,7 @@ const tailFormItemLayout = {
 
 function formatMenu(src: Array<MenuItemI>) {
   const tmp: Array<MenuItemI> = clone(src);
-  tmp.push({ icon: <PlusCircleOutlined />, title: '添加', key: 'addMenuItem', sub_menu: [], parent: 'root', path: '', status: 1 });
-
-  function addAddMenu(menuItem: MenuItemI) {
-    if (!menuItem.children) return;
-    menuItem.children?.push(
-      { icon: <PlusCircleOutlined />, title: '添加', key: `addMenuItem${menuItem.key}`, sub_menu: [], parent: menuItem.key, path: '', status: 1 }
-      );
-  }
-  tmp.forEach((item) => addAddMenu(item));
-
+  tmp.push({ icon: <PlusCircleOutlined />, title: '添加', key: 'addMenuItem', sub_menu: [], parent: 'root', path: '/', status: 1 });
   return tmp;
 }
 
@@ -64,7 +56,20 @@ function findMenuItemParent(menuItem: MenuItemI) {
   return (src: Array<MenuItemI>) => find<MenuItemI>((item) => item.key === menuItem.parent, src);
 }
 
+function addToPosition(src: Array<MenuItemI>, values: any, target: MenuItemI | undefined) {
+  if (!target) return [];
+  const newMenuItem = clone<MenuItemI>(values);
+  const newMenuArray = clone<Array<MenuItemI>>(src);
+  newMenuItem.key = `${target.key}${newMenuItem.path}`;
+  newMenuItem.path = `${target.path ?? ''}/${newMenuItem.path}`;
+  newMenuItem.parent = target.key ?? '';
+  newMenuArray.push(newMenuItem);
+  AUTH_MODULE.generateMenuTree(newMenuArray);
+  return newMenuArray;
+}
+
 const MenuSetting = (props: PropsI) => {
+  const [menuItemArray, setMenuItemArray] = useState<Array<MenuItemI>>([]);
   const [treeData, setTreeData] = useState<Array<MenuItemI>>([]);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [createOrUpdate, setCreateOrUpdate] = useState(false);
@@ -72,13 +77,15 @@ const MenuSetting = (props: PropsI) => {
   const [selectedMenuParent, setSelectedMenuParent] = useState<MenuItemI>();
   const [dictStatus, setDictStatus] = useState<Array<{ value: number; title: string }>>([]);
   const [isIcon, setIsIcon] = useState<boolean>(false);
-  const [isAddChildren, setIsAddChildren] = useState<boolean>(false);
   const [isMenuAdding, setIsMenuAdding] = useState<boolean>(false);
   const [form] = Form.useForm();
 
   useEffect(() => {
     setTreeData(formatMenu(props.state.menu));
   }, [props.state.menu]);
+  useEffect(() => {
+    setMenuItemArray(props.state.menuArray);
+  }, [props.state.menuArray]);
   useEffect(() => {
     const _dictStatus = props.state.dicts.filter((item) => item.label === 'status')
       .map((item) => ({ value: item.value, title: item.name }));
@@ -88,52 +95,33 @@ const MenuSetting = (props: PropsI) => {
   const menuItemClickHandlers = {
     common(_selectMenu: MenuItemI) {
       const { title, path, icon_name, status } = _selectMenu;
-      form.setFieldsValue({ title, path, icon_name, status });
+      form.setFieldsValue({ title, path: last(path?.split('/') || []), icon_name, status });
       setIsEdit(true);
     },
     add() {
       form.resetFields();
+      setIsIcon(selectedMenu?.parent === 'root');
       setIsEdit(true);
       setCreateOrUpdate(true);
-    },
-    addSecond() {
-      form.resetFields();
-      setIsIcon(false);
-      setIsAddChildren(false);
+      setSelectedMenuParent(selectedMenu);
     },
   };
 
   const formFinishHandlers = {
     edit() {},
     add(values: any) {
-      const addInnerOrRoot = () => {
-        const newMenuItem: MenuItemI = values as MenuItemI;
-        const newMenuArray = clone<Array<MenuItemI>>(props.state.menu);
-        const parentMenu = newMenuArray.find((item) => item.key === selectedMenu?.parent);
-        newMenuItem.key = `${selectedMenu?.parent}${newMenuItem.path}`;
-        newMenuItem.path = `${parentMenu?.path ?? ''}/${newMenuItem.path}`;
-        newMenuItem.parent = selectedMenu?.parent ?? '';
-        const addMenuItem2Root = () => newMenuArray.push(newMenuItem);
-        const addMenuItem2Inner = () => parentMenu?.children?.push(newMenuItem);
-        ifElse(equals('root'), addMenuItem2Root, addMenuItem2Inner)(newMenuItem.parent);
-        AUTH_MODULE.generateMenuTree(newMenuArray);
-        setIsEdit(false);
-      };
-      const addChildren = () => {
-        const newMenuItem: MenuItemI = values as MenuItemI;
-        const newMenuArray = clone<Array<MenuItemI>>(props.state.menu);
-        const parentMenu = newMenuArray.find((item) => item.key === selectedMenu?.key);
-        if (!parentMenu) return;
-        newMenuItem.key = `${selectedMenu?.key}${newMenuItem.path}`;
-        newMenuItem.path = `${selectedMenu?.path}/${newMenuItem.path}`;
-        newMenuItem.parent = selectedMenu?.key ?? '';
-        parentMenu.children = parentMenu?.children ?? [];
-        parentMenu.children?.push(newMenuItem);
-        AUTH_MODULE.generateMenuTree(newMenuArray);
-        setIsEdit(false);
-      };
-
-      ifElse(equals('添加'), addInnerOrRoot, addChildren)(selectedMenu?.title);
+      const newMenuItemArray = addToPosition(menuItemArray, values, selectedMenu);
+      setMenuItemArray(newMenuItemArray);
+      setIsEdit(false);
+    },
+  };
+  const formResetHandlers = {
+    common() {
+      const { title, path, icon_name, status } = selectedMenu ?? {};
+      form.setFieldsValue({ title, path: last(path?.split('/') || []), icon_name, status });
+    },
+    add() {
+      form.resetFields();
     },
   };
 
@@ -144,8 +132,7 @@ const MenuSetting = (props: PropsI) => {
   }
 
   function onFormReset() {
-    const { title, path, icon_name, status } = selectedMenu ?? {};
-    form.setFieldsValue({ title, path, icon_name, status });
+    ifElse(equals(selectedMenu), formResetHandlers.add, formResetHandlers.common)(selectedMenuParent);
   }
 
   function onTreeItemSelect(key: Array<ReactText>, info: SelectData) {
@@ -153,9 +140,7 @@ const MenuSetting = (props: PropsI) => {
     const _selectMenu: MenuItemI = info.selectedNodes[0];
     const isAddMenuItem = compose(test(/add\w+/g), prop<'key', string>('key'));
     setSelectedMenu(_selectMenu);
-    compose(setSelectedMenuParent, findMenuItemParent(_selectMenu))(props.state.menu);
-    setIsIcon(_selectMenu.parent === 'root');
-    setIsAddChildren(!isAddMenuItem(_selectMenu));
+    compose(setSelectedMenuParent, findMenuItemParent(_selectMenu))(menuItemArray);
     ifElse(isAddMenuItem, menuItemClickHandlers.add, menuItemClickHandlers.common)(_selectMenu);
   }
 
@@ -181,7 +166,7 @@ const MenuSetting = (props: PropsI) => {
           treeData={treeData}
         />
         <Button style={{ width: 240 }} type="primary">保存</Button>
-        <Modal visible={isEdit} footer={null} onCancel={onModalCancel}>
+        <Modal visible={isEdit} footer={null} getContainer={false} onCancel={onModalCancel}>
           <Form
             form={form}
             labelCol={formItemLayout.labelCol}
@@ -199,10 +184,12 @@ const MenuSetting = (props: PropsI) => {
             <Form.Item
               label="路由"
               name="path"
-              normalize={(value) => { console.log(value); }}
               rules={[{ required: true, message: '请输入路由' }]}
             >
-              <Input addonBefore={<span>{ `${selectedMenuParent?.path}/` }</span>} placeholder="请输入路由" />
+              <Input
+                addonBefore={<span>{ `${selectedMenuParent?.path || ''}/` }</span>}
+                placeholder="请输入路由"
+              />
             </Form.Item>
             <Form.Item
               label="图标"
@@ -211,7 +198,7 @@ const MenuSetting = (props: PropsI) => {
             >
               <Input
                 disabled={!isIcon}
-                addonAfter={<a href="https://ant.design/components/icon-cn/" rel="noreferrer" target="_blank">图标参考</a>}
+                addonAfter={<a href={MAIN_CONFIG.ICON_PREVIEW_URL} rel="noreferrer" target="_blank">图标参考</a>}
               />
             </Form.Item>
             <Form.Item
@@ -234,7 +221,7 @@ const MenuSetting = (props: PropsI) => {
                 { createOrUpdate ? '添加' : '保存' }
               </Button>
               <Divider type="vertical" />
-              <Button disabled={!isAddChildren} onClick={menuItemClickHandlers.addSecond}>添加下一级</Button>
+              <Button onClick={menuItemClickHandlers.add}>添加下一级</Button>
             </Form.Item>
           </Form>
         </Modal>
