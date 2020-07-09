@@ -7,8 +7,9 @@ const { LOGIN, LOGOUT, GET_MENUS } = apis;
 
 function menuArray2Tree(src: Array<MenuItemI>) {
   const res: Array<MenuItemI> = [];
-  clone<Array<MenuItemI>>(src).forEach((item) => {
-    const parent = res.find((_item) => _item.key === item.parent);
+  const tmp: Array<MenuItemI> = clone<Array<MenuItemI>>(src);
+  tmp.forEach((item) => {
+    const parent = tmp.find((_item) => _item.key === item.parent);
     if (parent) {
       parent.children = parent.children || [];
       parent.children?.push(item);
@@ -69,17 +70,15 @@ const AUTH_MODULE = {
       };
     }
   },
-  generateMenuTree(src: Array<MenuItemI>) {
-    store.dispatch({ type: actions.UPDATE_MENU, data: menuArray2Tree(src) });
-  },
+  menuArray2Tree,
   async getMenu() {
     try {
       const res = await GET_MENUS();
       if (!res.success) return;
       store.dispatch({ type: actions.UPDATE_MENU_TITLES, data: getMenuTitles(res.data) });
       store.dispatch({ type: actions.UPDATE_MENU_ROUTES, data: getMenuRoutes(res.data) });
+      store.dispatch({ type: actions.UPDATE_MENU, data: menuArray2Tree(res.data) });
       store.dispatch({ type: actions.UPDATE_MENU_ARRAY, data: res.data });
-      this.generateMenuTree(res.data);
     } catch (e) {
       console.log(e);
     }
