@@ -9,4 +9,5 @@ export const DEFAULT_COMMON_STATE: CommonStateI = {
   dicts: [],
   menuTitles: {},
   fullScreen: false,
+  articles: [],
 };

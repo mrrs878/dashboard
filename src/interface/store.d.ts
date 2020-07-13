@@ -7,4 +7,5 @@ interface CommonStateI {
   dicts: Array<DictI>;
   menuTitles: MenuTitlesI;
   fullScreen: boolean;
+  articles: Array<ArticleI>;
 }

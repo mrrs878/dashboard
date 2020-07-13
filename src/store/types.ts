@@ -16,8 +16,9 @@ type UpdateDicts = ActionTypeT<actions.UPDATE_DICTS, Array<DictI>>;
 type UpdateDict = ActionTypeT<actions.UPDATE_DICT, DictI>;
 type UpdateMenuTitles = ActionTypeT<actions.UPDATE_MENU_TITLES, MenuTitlesI>;
 type UpdateFullScreen = ActionTypeT<actions.UPDATE_FULL_SCREEN, boolean>;
+type UpdateArticles = ActionTypeT<actions.UPDATE_ARTICLES, Array<ArticleI>>;
 
 type ActionsT = IncreaseCountT | DecreaseCountT | UpdateUser | ClearUser | UpdateMenu | UpdateMenuArray
-| UpdateRoutes | UpdateDicts | UpdateDict | UpdateMenuTitles | UpdateFullScreen;
+| UpdateRoutes | UpdateDicts | UpdateDict | UpdateMenuTitles | UpdateFullScreen | UpdateArticles;
 
 export default ActionsT;

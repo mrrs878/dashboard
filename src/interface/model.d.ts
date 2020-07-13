@@ -49,3 +49,15 @@ interface DashboardDataI {
   key: string;
   value: number;
 }
+
+interface ArticleI {
+  id?: number;
+  status: number;
+  create_time: number;
+  category: string;
+  category_view: string;
+  title: string;
+  content: string;
+  visitors: number;
+  comments: number;
+}

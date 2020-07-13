@@ -24,6 +24,8 @@ function commonReducer(state = DEFAULT_COMMON_STATE, action: ActionsT): CommonSt
       return { ...state, menuTitles: action.data };
     case actions.UPDATE_FULL_SCREEN:
       return { ...state, fullScreen: action.data };
+    case actions.UPDATE_ARTICLES:
+      return { ...state, articles: action.data };
     default:
       return state;
   }

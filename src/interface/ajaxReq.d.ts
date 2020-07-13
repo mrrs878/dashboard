@@ -28,3 +28,6 @@ interface GetMenuReqI {
 
 interface GetDashboardDataReqI {
 }
+
+interface GetArticlesReqT {
+}
