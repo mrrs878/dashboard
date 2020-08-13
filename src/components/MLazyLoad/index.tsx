@@ -34,7 +34,7 @@ const LazyLoad: React.FC<PropsI> = (props: PropsI) => {
       });
     });
     observer.observe(elementRef.current);
-  }, []);
+  }, [Element]);
   return (
     <div ref={elementRef}>
       {

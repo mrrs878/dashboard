@@ -1,5 +1,7 @@
 # 后台脚手架
 
+[![Build Status](https://www.travis-ci.org/mrrs878/dashboard.svg?branch=master)](https://www.travis-ci.org/mrrs878/dashboard)
+
 ## 集成功能
 
 - [x]菜单编辑
@@ -49,6 +51,11 @@
 2. 编辑页面渲染一个树结构来展示
 3. 点击任一菜单项弹出表单来编辑当前项或添加子项
 4. 点击完成后会将新的项目和老的`menuItemArray`合并为一个新数组，并使用该新数组重新渲染树结构（`menuArray2Tree@src/module/auth.ts`）
+
+## 文章编辑
+
+1. 读取仓库里的文章
+2. 编辑后提交仓库
 
 ## 一些注意点
 

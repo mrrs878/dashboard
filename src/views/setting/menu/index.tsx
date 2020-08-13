@@ -3,7 +3,7 @@ import { Button, Tree, Modal, Input, Form, Divider, Radio } from 'antd';
 import * as _Icons from '@ant-design/icons';
 // @ts-ignore
 import { SelectData } from 'rc-tree';
-import { and, clone, compose, curry, equals, filter, find, ifElse, isNil, last, map, prop, test } from 'ramda';
+import { and, clone, compose, equals, find, ifElse, isNil, last, prop } from 'ramda';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -217,7 +217,7 @@ const MenuSetting = (props: PropsI) => {
             >
               <Input
                 disabled={!couldIcon}
-                addonAfter={<a href={MAIN_CONFIG.ICON_PREVIEW_URL} rel="noreferrer" target="_blank">图标参考</a>}
+                addonAfter={<a href={MAIN_CONFIG.ICON_PREVIEW_URL} target="_blank" rel="noopener noreferrer">图标参考</a>}
               />
             </Form.Item>
             <Form.Item

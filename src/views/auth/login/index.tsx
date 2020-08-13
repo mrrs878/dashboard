@@ -29,9 +29,6 @@ const Index = (props: PropsI) => {
   function onFinishFailed(errorInfo: any) {
     console.log('Failed:', errorInfo);
   }
-  function onRegClick() {
-    props.history.push('/auth/reg');
-  }
 
   return (
     <div className="container" style={{ justifyContent: 'center', marginTop: 0 }}>

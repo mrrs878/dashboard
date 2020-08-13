@@ -1,4 +1,3 @@
-import MAIN_CONFIG from '../config';
 import store, { actions } from '../store';
 import { GET_DICTS } from '../api/setting';
 

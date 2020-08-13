@@ -5,7 +5,6 @@ import { ColumnProps } from 'antd/es/table';
 import { connect } from 'react-redux';
 import getColumnSearchProps from '../../components/MTableSearch';
 import { AppState } from '../../store';
-import { getTableFilters } from '../../components/MTableFilters';
 import { ROUTES_MAP } from '../../router';
 import ARTICLE_MODULE from '../../modules/article';
 

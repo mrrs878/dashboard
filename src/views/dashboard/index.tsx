@@ -21,12 +21,8 @@ function formatUVChartData(src: Array<DashboardDataI>) {
     view: item.value,
   }));
 }
-function getTotalView(uvData: Array<UVChartDataI>) {
-  return uvData.reduce((pre, cur) => ({ date: '', view: pre.view + cur.view }));
-}
 
 const Dashboard = () => {
-  const [commonData, setCommonData] = useState<Array<DashboardDataI>>([]);
   const [pvData, setPVData] = useState<Array<PVChartDataI>>([]);
   const [uvData, setUVData] = useState<Array<UVChartDataI>>([]);
   useEffect(() => {
@@ -34,7 +30,6 @@ const Dashboard = () => {
       try {
         const res = await GET_DASHBOARD_DATA();
         if (!res.success) return;
-        setCommonData(res.data.filter((item) => item.group === 'common'));
         compose(setPVData, formatPVChartData)(res.data);
         compose(setUVData, formatUVChartData)(res.data);
       } catch (e) {

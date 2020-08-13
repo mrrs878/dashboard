@@ -32,9 +32,7 @@ function getExpandKeys(src: Array<MenuItemI>, role: number) {
 
 const RoleDetail = (props: PropsI) => {
   const [treeData, setTreeData] = useState<Array<any>>(props.state.menu);
-  const [expandKeys, setExpandedKeys] = useState<Array<string>>([]);
   const [checkedKeys, setCheckedKeys] = useState<Array<ReactText>>([]);
-  const [roleMenus, setRoleMenus] = useState<Array<MenuItemI>>([]);
 
   useEffect(() => {
     (async () => {

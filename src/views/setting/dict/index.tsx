@@ -4,7 +4,6 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { ColumnProps } from 'antd/es/table';
 import { connect } from 'react-redux';
 import getColumnSearchProps from '../../../components/MTableSearch';
-import dictModule from '../../../modules/dict';
 import { AppState } from '../../../store';
 import { getTableFilters } from '../../../components/MTableFilters';
 import { SETTING_ROUTES_MAP } from '../../../router/settingRoutes';

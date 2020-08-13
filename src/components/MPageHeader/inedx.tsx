@@ -21,22 +21,21 @@ const MPageHeader = (props: PropsI) => {
   const [breadcrumb, setBreadcrumb] = useState<Array<Route>>([]);
   const [routesMap, setRoutesMap] = useState<DynamicObjectKey<string>>({});
 
-  function getPaths(pathname: string) {
-    if (pathname === ROUTES_MAP.home) return ['home'];
-    const paths = props.location.pathname.match(/\/\w+/gi);
-    if (!paths) return [];
-    if (/\d/g.test(getLastItem(paths))) paths.pop();
-    const fullPath = paths.join('');
-    paths.pop();
-    paths.push(fullPath);
-    return paths;
-  }
-
   useEffect(() => {
     setRoutesMap(clone(ROUTES_MAP));
   }, []);
 
   useEffect(() => {
+    function getPaths(pathname: string) {
+      if (pathname === ROUTES_MAP.home) return ['home'];
+      const paths = props.location.pathname.match(/\/\w+/gi);
+      if (!paths) return [];
+      if (/\d/g.test(getLastItem(paths))) paths.pop();
+      const fullPath = paths.join('');
+      paths.pop();
+      paths.push(fullPath);
+      return paths;
+    }
     const paths = getPaths(props.location.pathname);
     const newBreadcrumb = paths.map((item) => ({ path: item, breadcrumbName: props.menuTitles[item] }));
     setBreadcrumb(newBreadcrumb);

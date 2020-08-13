@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Button, Divider, Form, Input, Radio, Select, Cascader } from 'antd';
+import { Button, Divider, Form, Input, Radio, Cascader } from 'antd';
 import { connect } from 'react-redux';
-import { prop, uniq } from 'ramda';
+import { uniq } from 'ramda';
 import { Store } from 'antd/lib/form/interface';
 import { RuleObject, StoreValue } from 'rc-field-form/lib/interface';
 

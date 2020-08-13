@@ -65,7 +65,7 @@ const ArticleDetail = (props: PropsI) => {
 
   useEffect(() => {
     setCreateOrEdit(props.match.params.id === '-1');
-  }, []);
+  }, [props.match.params.id]);
 
   function onMarkdownChange(instance: CodeMirror.Editor) {
     setMarkdownSrc(instance.getValue());
@@ -76,6 +76,7 @@ const ArticleDetail = (props: PropsI) => {
   }
 
   function onUploadChange(info: UploadChangeParam) {
+    console.log(info);
   }
 
   function upload(options: RcCustomRequestOptions) {
